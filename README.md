@@ -3,7 +3,8 @@
 iTravel is a single page web application for writing your travel plans and logs.
 
 Frontend: React, tailwind CSS, axios, react-router, sweetalert2
-Backend: Express, cors, bcrypt, 
+
+Backend: Express, cors, bcrypt, mysql2
 
 ## Feature
 
