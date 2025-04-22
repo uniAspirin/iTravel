@@ -16,12 +16,12 @@ const getAllTravelLogs = async (req, res) => {
       );
       log.tags = tags.map((tag) => tag.name);
     }
-    // date formate => YYYY-MM-DD
-    logs.forEach((log) => {
-      log.start_date = log.start_date?.toISOString().slice(0, 10);
-      log.end_date = log.end_date?.toISOString().slice(0, 10);
-      log.post_date = log.post_date?.toISOString().slice(0, 10);
-    });
+
+    // logs.forEach((log) => {
+    //   log.start_date = log.start_date?.toISOString().slice(0, 10);
+    //   log.end_date = log.end_date?.toISOString().slice(0, 10);
+    //   log.post_date = log.post_date?.toISOString().slice(0, 10);
+    // });
 
     res.json(logs);
   } catch (error) {
@@ -48,10 +48,10 @@ const getTravelLogById = async (req, res) => {
     );
     log.tags = tags.map((tag) => tag.name);
 
-    // date format => YYYY-MM-DD
-    log.start_date = log.start_date?.toISOString().slice(0, 10);
-    log.end_date = log.end_date?.toISOString().slice(0, 10);
-    log.post_date = log.post_date?.toISOString().slice(0, 10);
+    // log.start_date = log.start_date?.toISOString().slice(0, 10);
+    // log.end_date = log.end_date?.toISOString().slice(0, 10);
+    // log.post_date = log.post_date?.toISOString().slice(0, 10);
+
     res.json(log);
   } catch (error) {
     console.error(error);
