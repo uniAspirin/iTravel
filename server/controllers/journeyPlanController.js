@@ -22,11 +22,12 @@ const getAllJourneyPlans = async (req, res) => {
       plan.activities = activities.map((a) => a.name);
     }
 
-    // date formate => YYYY-MM-DD
-    plans.forEach((plan) => {
-      plan.start_date = plan.start_date?.toISOString().slice(0, 10);
-      plan.end_date = plan.end_date?.toISOString().slice(0, 10);
-    });
+    // note: not recommended cause ISOString includes timezone, which will cause the date change
+
+    // plans.forEach((plan) => {
+    //   plan.start_date = plan.start_date?.toISOString().slice(0, 10);
+    //   plan.end_date = plan.end_date?.toISOString().slice(0, 10);
+    // });
 
     res.json(plans);
   } catch (error) {
@@ -60,10 +61,9 @@ const getJourneyPlanById = async (req, res) => {
       [plan.id]
     );
     plan.activities = activities.map((a) => a.name);
-
-    // date formate => YYYY-MM-DD
-    plan.start_date = plan.start_date?.toISOString().slice(0, 10);
-    plan.end_date = plan.end_date?.toISOString().slice(0, 10);
+    // // date formate => YYYY-MM-DD
+    // plan.start_date = plan.start_date?.toISOString().slice(0, 10);
+    // plan.end_date = plan.end_date?.toISOString().slice(0, 10);
 
     res.json(plan);
   } catch (error) {

@@ -13,7 +13,7 @@ export default function JourneyPlan() {
     try {
       setIsLoading(true);
       const res = await axios.get("http://localhost:3000/journey-plans");
-      console.log("Get all travellogs", res.data);
+      console.log("Get all journey plans", res.data);
       setPlans(res.data);
       setIsLoading(false);
     } catch (error) {

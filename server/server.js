@@ -15,6 +15,7 @@ const db = await mysql2.createConnection({
   user: dbconfig.user,
   password: dbconfig.password,
   database: dbconfig.database,
+  dateStrings: true,
 });
 
 console.log("Connected to MySQL");
