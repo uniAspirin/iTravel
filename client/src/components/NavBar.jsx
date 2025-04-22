@@ -8,28 +8,26 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-violet-600 px-10 py-4 rounded-xl">
-      <div className="flex flex-row items-baseline space-x-3">
-        <h1
-          className="text-white font-semibold text-2xl mr-5"
-          onClick={() => navigate("/")}
+    <nav className="bg-violet-600/90 px-10 py-2 rounded-xl flex flex-row items-center space-x-3">
+      <h1
+        className="text-white font-semibold text-2xl mr-5"
+        onClick={() => navigate("/")}
+      >
+        ✈️ iTravel
+      </h1>
+      {navigation.map((item) => (
+        <NavLink
+          key={item.name}
+          to={item.href}
+          className={({ isActive }) =>
+            isActive
+              ? "text-gray-50 font-medium bg-violet-800/60 px-2 py-2.5 rounded-lg"
+              : "text-white font-medium hover:bg-violet-700 px-2 py-2.5 rounded-lg"
+          }
         >
-          ✈️ iTravel
-        </h1>
-        {navigation.map((item) => (
-          <NavLink
-            key={item.name}
-            to={item.href}
-            className={({ isActive }) =>
-              isActive
-                ? "text-white font-medium bg-violet-800 px-2 py-1 rounded"
-                : "text-white font-medium hover:bg-violet-700 px-2 py-1 rounded"
-            }
-          >
-            {item.name}
-          </NavLink>
-        ))}
-      </div>
+          {item.name}
+        </NavLink>
+      ))}
     </nav>
   );
 }

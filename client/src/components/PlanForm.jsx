@@ -2,6 +2,7 @@ import { X, Plus } from "lucide-react";
 import { useEffect, useState, useContext } from "react";
 import axios from "../axiosInstance";
 import { AuthContext } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 export default function PlanForm({
   selectedPlan,
@@ -59,6 +60,13 @@ export default function PlanForm({
       console.log("Succefully create a journey plan", res.data);
       getAllPlans();
       setSelectedPlan(null);
+      Swal.fire({
+        title: "Successfully added",
+        icon: "success",
+        text: " ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.error("Error creating journey plan");
     }
@@ -76,6 +84,13 @@ export default function PlanForm({
       console.log("Succefully updating a journey plan", res.data);
       getAllPlans();
       setSelectedPlan(null);
+      Swal.fire({
+        title: "Successfully updated",
+        icon: "success",
+        text: " ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.error("Error updating journey plan", error);
     }
@@ -89,6 +104,13 @@ export default function PlanForm({
       console.log("Successfully deleted");
       getAllPlans();
       setSelectedPlan(null);
+      Swal.fire({
+        title: "Successfully deleted",
+        icon: "success",
+        text: " ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.error("Failed to delete journey plan", error);
     }
