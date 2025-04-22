@@ -10,7 +10,7 @@ export default function NavBar() {
   return (
     <nav className="bg-violet-600/90 px-10 py-2 rounded-xl flex flex-row items-center space-x-3">
       <h1
-        className="text-white font-semibold text-2xl mr-5"
+        className="text-white font-semibold text-2xl mr-5 hover:cursor-pointer"
         onClick={() => navigate("/")}
       >
         ✈️ iTravel
@@ -22,7 +22,7 @@ export default function NavBar() {
           className={({ isActive }) =>
             isActive
               ? "text-gray-50 font-medium bg-violet-800/60 px-2 py-2.5 rounded-lg"
-              : "text-white font-medium hover:bg-violet-700 px-2 py-2.5 rounded-lg"
+              : "text-white font-medium hover:bg-violet-700 px-2 py-2.5 rounded-lg transition duration-175"
           }
         >
           {item.name}

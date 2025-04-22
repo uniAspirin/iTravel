@@ -118,8 +118,12 @@ export default function PlanForm({
 
   return (
     <div className="col-span-2 flex flex-col h-full bg-neutral-700 rounded-xl">
-      <div className="flex flex-row justify-between items-center h-15 px-5 shadow-xl/18 text-white">
-        <Plus onClick={() => setSelectedPlan(null)} />
+      <div className="flex flex-row justify-between items-center h-15 px-3 shadow-xl/18 text-white">
+        <Plus
+          onClick={() => setSelectedPlan(null)}
+          size={40}
+          className="hover:bg-neutral-600/80 p-2 rounded transition duration-175"
+        />
         {isUpdating && (
           <X
             color="#ffffff"
@@ -127,6 +131,8 @@ export default function PlanForm({
               await handleDelete();
               setFormData(emptyForm);
             }}
+            size={40}
+            className="hover:bg-neutral-600/80 p-2 rounded transition duration-175"
           />
         )}
       </div>
@@ -231,7 +237,7 @@ export default function PlanForm({
             <button
               type="button"
               onClick={handleCreate}
-              className="w-full py-2 rounded-lg bg-violet-600 text-white font-semibold hover:bg-violet-500"
+              className="w-full py-2 rounded-lg bg-violet-600 text-white font-semibold hover:bg-violet-500 transition duration-175"
             >
               Create
             </button>
@@ -240,7 +246,7 @@ export default function PlanForm({
             <button
               type="button"
               onClick={handleUpdate}
-              className="bg-gray-100 w-full py-2 rounded-lg hover:bg-gray-300 font-semibold"
+              className="w-full py-2 rounded-lg bg-gray-100 hover:bg-gray-300 font-semibold transition duration-175"
             >
               Update
             </button>
