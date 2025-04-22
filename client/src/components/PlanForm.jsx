@@ -14,8 +14,8 @@ export default function PlanForm({
     name: "",
     start_date: "",
     end_date: "",
-    locations: [],
-    activities: [],
+    locations: "",
+    activities: "",
     description: "",
   };
   const [formData, setFormData] = useState(emptyForm);
@@ -37,11 +37,11 @@ export default function PlanForm({
   };
 
   const formatFormData = () => {
-    const parseField = (field) => {
+    const parseField = (field) =>
       typeof field === "string"
         ? field.split(",").map((loc) => loc.trim())
         : field;
-    };
+
     return {
       ...formData,
       locations: parseField(formData.locations),
@@ -51,13 +51,14 @@ export default function PlanForm({
 
   const handleCreate = async (e) => {
     try {
+      console.log(formatFormData());
       const res = await axios.post(
         "http://localhost:3000/journey-plans",
         formatFormData()
       );
       console.log("Succefully create a journey plan", res.data);
       getAllPlans();
-      setFormData(emptyForm);
+      setSelectedPlan(null);
     } catch (error) {
       console.error("Error creating journey plan");
     }
@@ -74,7 +75,7 @@ export default function PlanForm({
       );
       console.log("Succefully updating a journey plan", res.data);
       getAllPlans();
-      setFormData(emptyForm);
+      setSelectedPlan(null);
     } catch (error) {
       console.error("Error updating journey plan", error);
     }
@@ -87,7 +88,7 @@ export default function PlanForm({
       );
       console.log("Successfully deleted");
       getAllPlans();
-      setFormData(emptyForm);
+      setSelectedPlan(null);
     } catch (error) {
       console.error("Failed to delete journey plan", error);
     }

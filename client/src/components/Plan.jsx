@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 export default function Plan({ plan, setSelectedPlan }) {
   return (
     <div
-      className="flex flex-col justify-around w-full text-white px-4 py-2 hover:bg-neutral-600 rounded-2xl mx-1 mt-2"
+      className="flex flex-col justify-around w-full px-4 py-2 text-white hover:bg-neutral-600 rounded-2xl"
       onClick={() => {
         setSelectedPlan(plan);
       }}
