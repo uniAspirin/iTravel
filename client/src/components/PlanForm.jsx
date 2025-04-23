@@ -4,6 +4,7 @@ import axios from "../axiosInstance";
 import { AuthContext } from "../contexts/AuthContext";
 import Swal from "sweetalert2";
 import { z } from "zod";
+import { useForm } from "react-hook-form";
 
 export default function PlanForm({
   selectedPlan,
@@ -20,45 +21,48 @@ export default function PlanForm({
     activities: "",
     description: "",
   };
-  const [formData, setFormData] = useState(emptyForm);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  // const [formData, setFormData] = useState(emptyForm);
+  // const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    if (selectedPlan === null) {
-      setFormData(emptyForm);
-      setIsUpdating(false);
+    if (selectedPlan) {
+      reset(selectedPlan);
     } else {
-      setFormData(selectedPlan);
-      setIsUpdating(true);
+      reset(emptyForm);
     }
   }, [selectedPlan]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((pre) => ({ ...pre, [name]: value }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((pre) => ({ ...pre, [name]: value }));
+  // };
 
-  const formatFormData = () => {
+  const formatFormData = (data) => {
     const parseField = (field) =>
       typeof field === "string"
         ? field.split(",").map((loc) => loc.trim())
         : field;
-
     return {
-      ...formData,
-      locations: parseField(formData.locations),
-      activities: parseField(formData.activities),
+      ...data,
+      locations: parseField(data.locations),
+      activities: parseField(data.activities),
     };
   };
 
-  const handleCreate = async (e) => {
+  const handleCreate = async (data) => {
     try {
-      console.log(formatFormData());
+      const formatData = formatFormData(data);
       const res = await axios.post(
         "http://localhost:3000/journey-plans",
-        formatFormData(),
+        formatData,
       );
-      console.log("Succefully create a journey plan", res.data);
       getAllPlans();
       setSelectedPlan(null);
       Swal.fire({
@@ -73,14 +77,12 @@ export default function PlanForm({
     }
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (data) => {
     try {
-      console.log(formData);
-      console.log(selectedPlan.id);
-
+      const formatData = formatFormData(data);
       const res = await axios.put(
         `http://localhost:3000/journey-plans/${selectedPlan.id}`,
-        formatFormData(),
+        formatData,
       );
       console.log("Succefully updating a journey plan", res.data);
       getAllPlans();
@@ -96,11 +98,15 @@ export default function PlanForm({
       console.error("Error updating journey plan", error);
     }
   };
+  const form =
+    "w-full rounded border border-neutral-600 px-2 py-2 text-gray-50 focus:outline-none";
+  const formAlert =
+    "w-full rounded border border-red-500 px-2 py-2 text-gray-50 focus:outline-none";
 
-  const handleDelete = async (e) => {
+  const handleDelete = async (data) => {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/journey-plans/${selectedPlan.id}`,
+        `http://localhost:3000/journey-plans/${data.id}`,
       );
       console.log("Successfully deleted");
       getAllPlans();
@@ -125,13 +131,10 @@ export default function PlanForm({
           size={40}
           className="rounded p-2 transition duration-175 hover:bg-neutral-600/80"
         />
-        {isUpdating && (
+        {selectedPlan && (
           <X
             color="#ffffff"
-            onClick={async () => {
-              await handleDelete();
-              setFormData(emptyForm);
-            }}
+            onClick={handleSubmit(handleDelete)}
             size={40}
             className="rounded p-2 transition duration-175 hover:bg-neutral-600/80"
           />
@@ -139,15 +142,19 @@ export default function PlanForm({
       </div>
 
       <form className="mt-5 flex h-full flex-col p-4">
-        <input
-          type="text"
-          name="name"
-          placeholder="Untitled"
-          autoComplete="off"
-          value={formData.name}
-          onChange={handleChange}
-          className="mb-4 rounded-lg border border-neutral-600 px-3 py-4 text-2xl font-bold text-gray-50 focus:outline-none"
-        />
+        <div className="mb-3">
+          <input
+            type="text"
+            name="name"
+            placeholder="Untitled"
+            autoComplete="off"
+            className={`w-full rounded-lg border px-3 py-4 text-2xl font-bold text-gray-50 focus:outline-none ${errors.name ? "border-red-600" : "border-neutral-600"}`}
+            {...register("name", { required: "Title is required" })}
+          />
+          {errors.name && (
+            <p className="text-sm text-red-500">{errors.name.message}</p>
+          )}
+        </div>
 
         <div className="mb-2 grid grid-cols-2 space-y-5 gap-x-10">
           <div>
@@ -161,12 +168,22 @@ export default function PlanForm({
               type="text"
               name="start_date"
               id="start_date"
-              className="w-full rounded border border-neutral-600 px-2 py-2 text-gray-50 focus:outline-none"
+              className={errors.start_date ? formAlert : form}
               placeholder="2025-04-28"
               autoComplete="off"
-              value={formData.start_date}
-              onChange={handleChange}
+              {...register("start_date", {
+                required: "Start date cannot be empty",
+                pattern: {
+                  value: /\d{4}-\d{2}-\d{2}/,
+                  message: "date format should be YYYY-MM-DD",
+                },
+              })}
             />
+            {errors.start_date && (
+              <p className="text-sm text-red-500">
+                {errors.start_date.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -180,12 +197,20 @@ export default function PlanForm({
               type="text"
               name="end_date"
               id="end_date"
-              className="w-full rounded border border-neutral-600 px-2 py-2 text-gray-50 focus:outline-none"
+              className={errors.end_date ? formAlert : form}
               placeholder="2025-06-10"
               autoComplete="off"
-              value={formData.end_date}
-              onChange={handleChange}
+              {...register("end_date", {
+                required: "End date is required",
+                pattern: {
+                  value: /^\d{4}-\d{2}-\d{2}$/,
+                  message: "Date format must be YYYY-MM-DD",
+                },
+              })}
             />
+            {errors.end_date && (
+              <p className="text-sm text-red-500">{errors.end_date.message}</p>
+            )}
           </div>
 
           <div>
@@ -199,12 +224,16 @@ export default function PlanForm({
               type="text"
               name="locations"
               id="locations"
-              className="w-full rounded border border-neutral-600 px-2 py-2 text-gray-50 focus:outline-none"
+              className={errors.locations ? formAlert : form}
               placeholder="Dublin, Cork"
               autoComplete="off"
-              value={formData.locations}
-              onChange={handleChange}
+              {...register("locations", {
+                required: "locations are required",
+              })}
             />
+            {errors.locations && (
+              <p className="text-sm text-red-500">{errors.locations.message}</p>
+            )}
           </div>
           <div>
             <label
@@ -217,39 +246,65 @@ export default function PlanForm({
               type="text"
               name="activities"
               id="activities"
-              className="w-full rounded border border-neutral-600 px-2 py-2 text-gray-50 focus:outline-none"
+              className={errors.activities ? formAlert : form}
               placeholder="swimming, dancing"
               autoComplete="off"
-              value={formData.activities}
-              onChange={handleChange}
+              {...register("activities", {
+                required: "Activities are required",
+              })}
             />
+            {errors.activities && (
+              <p className="text-sm text-red-500">
+                {errors.activities.message}
+              </p>
+            )}
           </div>
         </div>
 
         <textarea
           name="description"
           placeholder="description"
-          className="h-60 rounded-xl border border-neutral-600 p-3 text-white focus:outline-none"
-          value={formData.description}
-          onChange={handleChange}
+          className={`h-60 rounded-xl border p-3 text-white focus:outline-none ${errors.description ? "border-red-600" : "border-neutral-600"}`}
+          {...register("description", { required: "Description is required" })}
         />
+        {errors.description && (
+          <p className="text-sm text-red-500">{errors.description.message}</p>
+        )}
         <div className="mt-5 flex flex-row justify-between gap-x-8">
-          {isUpdating || (
+          {/* {selectedPlan || (
             <button
               type="button"
-              onClick={handleCreate}
+              onClick={handleSubmit(handleCreate)}
               className="w-full rounded-lg bg-violet-600 py-2 font-semibold text-white transition duration-175 hover:bg-violet-500"
             >
               Create
             </button>
           )}
-          {isUpdating && (
+          {selectedPlan && (
             <button
               type="button"
-              onClick={handleUpdate}
+              onClick={handleSubmit(handleUpdate)}
               className="w-full rounded-lg bg-gray-100 py-2 font-semibold transition duration-175 hover:bg-gray-300"
             >
               Update
+            </button>
+          )} */}
+
+          {selectedPlan ? (
+            <button
+              type="button"
+              onClick={handleSubmit(handleUpdate)}
+              className="w-full rounded-lg bg-gray-100 py-2 font-semibold transition duration-175 hover:bg-gray-300"
+            >
+              Update
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleSubmit(handleCreate)}
+              className="w-full rounded-lg bg-violet-600 py-2 font-semibold text-white transition duration-175 hover:bg-violet-500"
+            >
+              Create
             </button>
           )}
         </div>
