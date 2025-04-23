@@ -1,14 +1,19 @@
 import Plan from "./Plan";
 
-export default function PlanList({ plans, setSelectedPlan }) {
+export default function PlanList({ plans, selectedPlan, setSelectedPlan }) {
   return (
-    <div className="col-span-1 flex flex-col p-2 h-full bg-neutral-700 rounded-xl">
+    <div className="col-span-1 flex h-full flex-col rounded-xl bg-neutral-700 p-2">
       {plans.length > 0 &&
         plans.map((plan) => (
-          <Plan key={plan.id} plan={plan} setSelectedPlan={setSelectedPlan} />
+          <Plan
+            key={plan.id}
+            plan={plan}
+            selectedPlan={selectedPlan}
+            setSelectedPlan={setSelectedPlan}
+          />
         ))}
 
-      <p className="text-center font-medium text-white text-lg border-t border-neutral-600 pt-5 mt-2">
+      <p className="mt-2 border-t border-neutral-600 pt-5 text-center text-lg font-medium text-white">
         {plans.length} results
       </p>
     </div>

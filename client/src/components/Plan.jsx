@@ -1,10 +1,14 @@
-import axios from "../axiosInstance";
-import { X } from "lucide-react";
+export default function Plan({ plan, selectedPlan, setSelectedPlan }) {
+  const style =
+    "flex w-full flex-col justify-around rounded-2xl px-4 py-2 text-white transition duration-175 hover:bg-neutral-600";
+  const styleSelected =
+    "flex w-full flex-col justify-around rounded-2xl px-4 py-2 text-white transition duration-175 bg-neutral-600";
 
-export default function Plan({ plan, setSelectedPlan }) {
   return (
     <div
-      className="flex w-full flex-col justify-around rounded-2xl px-4 py-2 text-white transition duration-175 hover:bg-neutral-600"
+      className={
+        selectedPlan && selectedPlan.id === plan.id ? styleSelected : style
+      }
       onClick={() => {
         setSelectedPlan(plan);
       }}

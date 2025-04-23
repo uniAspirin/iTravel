@@ -12,10 +12,9 @@ Authentication: Login, Register, using JWT instead of session
 
 SPA: standard SPA design
 
-
 ## Installation
 
-Use the npm to install
+If it's your first time, run:
 
 ```bash
 cd server

@@ -32,10 +32,14 @@ export default function JourneyPlan() {
   return (
     <>
       <div
-        className="grid grid-cols-3 space-x-5 mt-5"
+        className="mt-5 grid grid-cols-3 space-x-5"
         style={{ height: "calc(100vh - 20rem)" }}
       >
-        <PlanList plans={plans} setSelectedPlan={setSelectedPlan} />
+        <PlanList
+          plans={plans}
+          selectedPlan={selectedPlan}
+          setSelectedPlan={setSelectedPlan}
+        />
         <PlanForm
           selectedPlan={selectedPlan}
           setSelectedPlan={setSelectedPlan}
