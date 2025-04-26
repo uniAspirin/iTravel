@@ -29,7 +29,7 @@ const getAllJourneyPlans = async (req, res) => {
     //   plan.end_date = plan.end_date?.toISOString().slice(0, 10);
     // });
 
-    res.json(plans);
+    res.status(200).json(plans);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error getting all journey plans" });
@@ -65,7 +65,7 @@ const getJourneyPlanById = async (req, res) => {
     // plan.start_date = plan.start_date?.toISOString().slice(0, 10);
     // plan.end_date = plan.end_date?.toISOString().slice(0, 10);
 
-    res.json(plan);
+    res.status(200).json(plan);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error getting journey plan" });
@@ -103,7 +103,7 @@ const createJourneyPlan = async (req, res) => {
       }
     }
 
-    res.json({
+    res.status(201).json({
       message: "Journey plan created successfully",
       id: journey_plan_id,
     });
@@ -146,7 +146,7 @@ const updateJourneyPlan = async (req, res) => {
       }
     }
 
-    res.json({ message: "Journey plan updated successfully" });
+    res.status(201).json({ message: "Journey plan updated successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error updating journey plan" });

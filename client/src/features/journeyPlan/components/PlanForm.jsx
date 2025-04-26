@@ -1,16 +1,12 @@
 import { X, Plus } from "lucide-react";
-import { useEffect, useState, useContext } from "react";
-import axios from "../axiosInstance";
-import { AuthContext } from "../contexts/AuthContext";
-import Swal from "sweetalert2";
-import { z } from "zod";
+import { useEffect, useContext } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
+import { useCreatePlan } from "../api/useCreatePlan";
+import { useUpdatePlan } from "../api/useUpdatePlan";
+import { useDeletePlan } from "../api/useDeletePlan";
 
-export default function PlanForm({
-  selectedPlan,
-  setSelectedPlan,
-  getAllPlans,
-}) {
+export default function PlanForm({ selectedPlan, setSelectedPlan }) {
   const { user } = useContext(AuthContext);
   const emptyForm = {
     user_id: user.id,
@@ -28,8 +24,9 @@ export default function PlanForm({
     formState: { errors },
   } = useForm();
 
-  // const [formData, setFormData] = useState(emptyForm);
-  // const [isUpdating, setIsUpdating] = useState(false);
+  const { mutate: handleCreate } = useCreatePlan();
+  const { mutate: handleUpdate } = useUpdatePlan();
+  const { mutate: handleDelete } = useDeletePlan();
 
   useEffect(() => {
     if (selectedPlan) {
@@ -39,89 +36,10 @@ export default function PlanForm({
     }
   }, [selectedPlan]);
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((pre) => ({ ...pre, [name]: value }));
-  // };
-
-  const formatFormData = (data) => {
-    const parseField = (field) =>
-      typeof field === "string"
-        ? field.split(",").map((loc) => loc.trim())
-        : field;
-    return {
-      ...data,
-      locations: parseField(data.locations),
-      activities: parseField(data.activities),
-    };
-  };
-
-  const handleCreate = async (data) => {
-    try {
-      const formatData = formatFormData(data);
-      const res = await axios.post(
-        "http://localhost:3000/journey-plans",
-        formatData,
-      );
-      getAllPlans();
-      setSelectedPlan(null);
-      Swal.fire({
-        title: "Successfully added",
-        icon: "success",
-        text: " ",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Error creating journey plan");
-    }
-  };
-
-  const handleUpdate = async (data) => {
-    try {
-      const formatData = formatFormData(data);
-      const res = await axios.put(
-        `http://localhost:3000/journey-plans/${selectedPlan.id}`,
-        formatData,
-      );
-      console.log("Succefully updating a journey plan", res.data);
-      getAllPlans();
-      setSelectedPlan(null);
-      Swal.fire({
-        title: "Successfully updated",
-        icon: "success",
-        text: " ",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Error updating journey plan", error);
-    }
-  };
   const form =
     "w-full rounded border border-neutral-600 px-2 py-2 text-gray-50 focus:outline-none";
   const formAlert =
     "w-full rounded border border-red-500 px-2 py-2 text-gray-50 focus:outline-none";
-
-  const handleDelete = async (data) => {
-    try {
-      const res = await axios.delete(
-        `http://localhost:3000/journey-plans/${data.id}`,
-      );
-      console.log("Successfully deleted");
-      getAllPlans();
-      setSelectedPlan(null);
-      Swal.fire({
-        title: "Successfully deleted",
-        icon: "success",
-        text: " ",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Failed to delete journey plan", error);
-    }
-  };
 
   return (
     <div className="col-span-2 flex h-full flex-col rounded-xl bg-neutral-700">
@@ -270,26 +188,8 @@ export default function PlanForm({
         {errors.description && (
           <p className="text-sm text-red-500">{errors.description.message}</p>
         )}
-        <div className="mt-5 flex flex-row justify-between gap-x-8">
-          {/* {selectedPlan || (
-            <button
-              type="button"
-              onClick={handleSubmit(handleCreate)}
-              className="w-full rounded-lg bg-violet-600 py-2 font-semibold text-white transition duration-175 hover:bg-violet-500"
-            >
-              Create
-            </button>
-          )}
-          {selectedPlan && (
-            <button
-              type="button"
-              onClick={handleSubmit(handleUpdate)}
-              className="w-full rounded-lg bg-gray-100 py-2 font-semibold transition duration-175 hover:bg-gray-300"
-            >
-              Update
-            </button>
-          )} */}
 
+        <div className="mt-5 flex flex-row justify-between gap-x-8">
           {selectedPlan ? (
             <button
               type="button"
@@ -301,7 +201,10 @@ export default function PlanForm({
           ) : (
             <button
               type="button"
-              onClick={handleSubmit(handleCreate)}
+              onClick={async () => {
+                await handleSubmit(handleCreate)();
+                reset(emptyForm);
+              }}
               className="w-full rounded-lg bg-violet-600 py-2 font-semibold text-white transition duration-175 hover:bg-violet-500"
             >
               Create

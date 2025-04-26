@@ -1,4 +1,4 @@
-import { href, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const navigation = [
@@ -8,9 +8,9 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-violet-600/90 px-10 py-2 rounded-xl flex flex-row items-center space-x-3">
+    <nav className="flex flex-row items-center space-x-3 rounded-xl bg-violet-600/90 px-10 py-2">
       <h1
-        className="text-white font-semibold text-2xl mr-5 hover:cursor-pointer"
+        className="mr-5 text-2xl font-semibold text-white hover:cursor-pointer"
         onClick={() => navigate("/")}
       >
         ✈️ iTravel
@@ -21,8 +21,8 @@ export default function NavBar() {
           to={item.href}
           className={({ isActive }) =>
             isActive
-              ? "text-gray-50 font-medium bg-violet-800/60 px-2 py-2.5 rounded-lg"
-              : "text-white font-medium hover:bg-violet-700 px-2 py-2.5 rounded-lg transition duration-175"
+              ? "rounded-lg bg-violet-800/60 px-2 py-2.5 font-medium text-gray-50"
+              : "rounded-lg px-2 py-2.5 font-medium text-white transition duration-175 hover:bg-violet-700"
           }
         >
           {item.name}

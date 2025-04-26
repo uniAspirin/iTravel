@@ -2,15 +2,19 @@
 
 iTravel is a single page web application for writing your travel plans and logs.
 
-Frontend: React, tailwind CSS, axios, react-router, sweetalert2
-
-Backend: Express, cors, bcrypt, mysql2
-
 ## Feature
 
-Authentication: Login, Register, using JWT instead of session
+Authentication: JWT
 
-SPA: standard SPA design
+<!-- Global State: Zustand -->
+
+Server Cache State: Tanstack (formerly known as react-query)
+
+Form State & Validation: react-hook-form
+
+Very Cute Popup Alerts: sweetalert2
+
+URL State: react-router-dom
 
 ## Installation
 

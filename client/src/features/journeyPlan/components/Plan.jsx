@@ -1,13 +1,13 @@
 export default function Plan({ plan, selectedPlan, setSelectedPlan }) {
   const style =
     "flex w-full flex-col justify-around rounded-2xl px-4 py-2 text-white transition duration-175 hover:bg-neutral-600";
-  const styleSelected =
+  const selectedStyle =
     "flex w-full flex-col justify-around rounded-2xl px-4 py-2 text-white transition duration-175 bg-neutral-600";
 
   return (
     <div
       className={
-        selectedPlan && selectedPlan.id === plan.id ? styleSelected : style
+        selectedPlan && selectedPlan.id === plan.id ? selectedStyle : style
       }
       onClick={() => {
         setSelectedPlan(plan);
