@@ -201,10 +201,11 @@ export default function PlanForm({ selectedPlan, setSelectedPlan }) {
           ) : (
             <button
               type="button"
-              onClick={async () => {
-                await handleSubmit(handleCreate)();
-                reset(emptyForm);
-              }}
+              // onClick={async () => {
+              //   await handleSubmit(handleCreate)();
+              //   reset(emptyForm);
+              // }}
+              onClick={handleSubmit(handleCreate)}
               className="w-full rounded-lg bg-violet-600 py-2 font-semibold text-white transition duration-175 hover:bg-violet-500"
             >
               Create

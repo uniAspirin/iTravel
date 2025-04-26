@@ -110,7 +110,7 @@ export default function LogForm({ selectedLog, setSelectedLog }) {
               type="text"
               name="end_date"
               id="end_date"
-              className={`${errors.start_date ? "border-red-500" : "border-neutral-600"} w-full rounded border px-2 py-2 text-gray-50 focus:outline-none`}
+              className={`${errors.end_date ? "border-red-500" : "border-neutral-600"} w-full rounded border px-2 py-2 text-gray-50 focus:outline-none`}
               placeholder="2025-06-10"
               autoComplete="off"
               {...register("end_date", {
@@ -130,14 +130,14 @@ export default function LogForm({ selectedLog, setSelectedLog }) {
         <textarea
           name="description"
           placeholder="description"
-          className={`h-30 rounded-xl border p-3 text-white focus:outline-none ${errors.description ? "border-red-600" : "border-neutral-600"}`}
+          className={`${errors.description ? "border-red-600" : "border-neutral-600"} mb-4 h-60 rounded-xl border p-3 text-white focus:outline-none`}
           {...register("description", { required: "Description is required" })}
         />
         {errors.description && (
           <p className="text-sm text-red-500">{errors.description.message}</p>
         )}
 
-        <div className="mb-3">
+        <div className="mb-8">
           <label
             htmlFor="tags"
             className="mr-4 mb-1 ml-1 block text-lg font-medium text-white"
@@ -149,7 +149,7 @@ export default function LogForm({ selectedLog, setSelectedLog }) {
             name="tags"
             id="tags"
             className={`${errors.tags ? "border-red-500" : "border-neutral-600"} w-full rounded border px-2 py-2 text-gray-50 focus:outline-none`}
-            placeholder="#Hi"
+            placeholder="IE, UK, FR"
             autoComplete="off"
             {...register("tags", {
               required: "Tags cannot be empty",
@@ -171,10 +171,7 @@ export default function LogForm({ selectedLog, setSelectedLog }) {
         ) : (
           <button
             type="button"
-            onClick={async () => {
-              await handleSubmit(handleCreate)();
-              reset(emptyForm);
-            }}
+            onClick={handleSubmit(handleCreate)}
             className="w-full rounded-lg bg-violet-600 py-2 font-semibold text-white transition duration-175 hover:bg-violet-500"
           >
             Create

@@ -18,7 +18,7 @@ export const useUpdateLog = () => {
 
   return useMutation({
     mutationFn: (log) => {
-      api.put(`/journey-plans/${log.id}`, formatLog(log));
+      api.put(`/travel-logs/${log.id}`, formatLog(log));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["logs"] });
