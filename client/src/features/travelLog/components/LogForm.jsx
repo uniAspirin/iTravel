@@ -69,7 +69,8 @@ export default function LogForm({ selectedLog, setSelectedLog }) {
             <p className="text-sm text-red-500">{errors.title.message}</p>
           )}
         </div>
-        <div className="mb-2 grid grid-cols-2 space-y-5 gap-x-10">
+
+        <div className="grid grid-cols-2 space-y-5 gap-x-10">
           <div>
             <label
               htmlFor="start_date"
@@ -127,16 +128,6 @@ export default function LogForm({ selectedLog, setSelectedLog }) {
           </div>
         </div>
 
-        <textarea
-          name="description"
-          placeholder="description"
-          className={`${errors.description ? "border-red-600" : "border-neutral-600"} mb-4 h-60 rounded-xl border p-3 text-white focus:outline-none`}
-          {...register("description", { required: "Description is required" })}
-        />
-        {errors.description && (
-          <p className="text-sm text-red-500">{errors.description.message}</p>
-        )}
-
         <div className="mb-8">
           <label
             htmlFor="tags"
@@ -159,6 +150,16 @@ export default function LogForm({ selectedLog, setSelectedLog }) {
             <p className="text-sm text-red-500">{errors.tags.message}</p>
           )}
         </div>
+
+        <textarea
+          name="description"
+          placeholder="description"
+          className={`${errors.description ? "border-red-600" : "border-neutral-600"} mb-4 h-60 rounded-xl border p-3 text-white focus:outline-none`}
+          {...register("description", { required: "Description is required" })}
+        />
+        {errors.description && (
+          <p className="text-sm text-red-500">{errors.description.message}</p>
+        )}
 
         {selectedLog ? (
           <button

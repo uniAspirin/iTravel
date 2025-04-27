@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import TravelLog from "./features/travelLog/TravelLog";
@@ -19,14 +19,19 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route
+              index
+              element={user ? <Home /> : <Navigate to="/login" replace />}
+            />
             <Route
               path="travel-logs"
-              element={user ? <TravelLog /> : <Login />}
+              element={user ? <TravelLog /> : <Navigate to="/login" replace />}
             />
             <Route
               path="journey-plans"
-              element={user ? <JourneyPlan /> : <Login />}
+              element={
+                user ? <JourneyPlan /> : <Navigate to="/login" replace />
+              }
             />
           </Route>
         </Routes>

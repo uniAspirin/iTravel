@@ -25,7 +25,7 @@ export default function Register() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-      <div className="mt-5 rounded-xl border border-gray-200 px-5 py-5 shadow-2xl sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-5 w-100 rounded-xl border border-gray-200 px-5 py-5 shadow-2xl">
         <h1 className="mt-3 mb-8 text-center text-2xl font-bold">
           ✈️ Register for an account
         </h1>
